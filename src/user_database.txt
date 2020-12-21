@@ -1,0 +1,5 @@
+Full Name,Username,Email,MD5(password)
+Artyom Tonoyan,artyomtonoyan1998,tonoyan.artyom.04@gmail.com,777eb0b787ead375af52207980382078
+Karen Karapetyan,karenkarapetyan0,karen@yahoo.com,f3e2c3b7b0ffc7ce5245de242c9ad754
+Arman Alaverdyan,armanalaverdyan14,armanal@gmail.com,512694d1f54f72d1fc0b87edc1230aae
+Anna Stepanyan,annastepanyan,anna@yandex.ru,01e52d57f84a4d4be3740cc4ca55d9bc
