@@ -9,8 +9,6 @@ import java.util.regex.Pattern;
 
 public class User {
     private static final String EMAIL_VERIFICATION = "^[\\w-+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
-    private static final String PASSWORD_VERIFICATION = "^(?=(?:.*?[A-Z]){2})(?=(?:.*?[0-9]){3}).*$";
-
     private FullName fullName;
     private String username;
     private String email;
@@ -51,6 +49,14 @@ public class User {
 
     }
 
+    public User(String data) throws Exception {
+        String[] splitData = data.split(",");
+        setFullName(splitData[0].split(" ")[0], splitData[0].split(" ")[1]);
+        this.username = splitData[1];
+        this.email = splitData[2];
+        this.password = splitData[3];
+    }
+
     public void setFullName(String name, String surname) throws EmptyNameException {
         this.fullName = new FullName(name, surname);
     }
@@ -81,9 +87,7 @@ public class User {
     }
 
     public void setPassword(String password) throws InvalidInputException, NoSuchAlgorithmException {
-        Pattern passwordPattern = Pattern.compile(PASSWORD_VERIFICATION);
-        Matcher matcher = passwordPattern.matcher(password);
-        if (matcher.matches() && password.length() >= 8) {
+        if (checkPassword(password)) {
             this.password = EncryptionService.getMd5(password);
         } else {
             throw new InvalidInputException("Password should contain at least 2 uppercase letters and 3 " +
@@ -105,6 +109,26 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    private boolean checkPassword(String password) {
+        if (password.length() < 8) {
+            return false;
+        }
+        int countOfUppercase = 0;
+        int countOfDigits = 0;
+        for (int i = 0; i < password.length(); i++) {
+            char tempChar = password.charAt(i);
+            if (Character.isDigit(tempChar)) {
+                countOfDigits++;
+            } else if (Character.isUpperCase(tempChar)) {
+                countOfUppercase++;
+            }
+            if (countOfDigits >= 3 && countOfUppercase >= 2) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
